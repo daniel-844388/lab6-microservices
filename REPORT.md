@@ -82,8 +82,11 @@ Aparecen registrados el servidor de configuración, el servicio 'accounts' y el 
 Answer the following questions:
 
 - What happens when you start a second instance of the accounts service?
+Aparece una nueva instancia del servicio, con su correspondiente dirección de acceso (en este caso con otro puerto)
 - How does Eureka handle multiple instances?
+Eureka permite varias instancias de un mismo servicio, cada una con su dirección y puerto de forma que se diferencien.
 - How does client-side load balancing work with multiple instances?
+El cliente solicita un listado de todas las instancias del servicio, y es el propio cliente, con su política de balanceo, el que determina qué instancia utiliza.
 
 ---
 
