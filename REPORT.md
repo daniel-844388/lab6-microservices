@@ -17,13 +17,45 @@ Describe the changes you made to the configuration:
 
 ![Accounts Registration Log](docs/screenshots/accounts-registration.png)
 
-Explain what happens during service registration.
+1. Se prepara e inicializa cliente Eureka:
+```text
+Setting initial instance status as: STARTING
+Initializing Eureka in region us-east-1
+Resolving eureka endpoints via configuration
+```
+2. Se obtiene la lista actual de servicios registrados:
+```text
+Getting all instance registry info from the eureka server
+The response status is 200
+```
+3. Se inicia el heartbeat y el replicador:
+```text
+Starting heartbeat executor: renew interval is: 30
+InstanceInfoReplicator onDemand update allowed rate per min is 4
+```
+4. Se registra el servicio con estado UP:
+```text
+Registering application ACCOUNTS-SERVICE with eureka with status UP
+Saw local status change event StatusChangeEvent [timestamp=1764951972071, current=UP, previous=STARTING]
+DiscoveryClient_ACCOUNTS-SERVICE/10.255.255.254:accounts-service:3333: registering service...
+```
+5. Se completa el inicia del servidor:
+```text
+Tomcat started on port 3333 (http) with context path '/'
+```
+6. Se confirma el registro:
+```text
+DiscoveryClient_ACCOUNTS-SERVICE/10.255.255.254:accounts-service:3333 - registration status: 204
+```
 
 ### Web Service Registration
 
 ![Web Registration Log](docs/screenshots/web-registration.png)
 
 Explain how the web service discovers the accounts service.
+1. El servcio web pregunta a Eureka por instancias de "ACCOUNTS-SERVICE" mediante RestTemplate.
+2. Eureka selecciona una instancia disponible con balanceo de carga.
+3. Se sustituye "ACCOUNTS-SERVICE" por la URL y puerto en el que se encuentra la instancia devuelta por Eureka.
 
 ---
 
@@ -34,7 +66,12 @@ Explain how the web service discovers the accounts service.
 Describe what the Eureka dashboard shows:
 
 - Which services are registered?
+Aparecen registrados el servidor de configuración, el servicio 'accounts' y el servicio 'web'.
 - What information does Eureka track for each instance?
+1. Application: El nombre de la aplicación o servicio.
+2. AMIs: Información sobre Amazon Machine Image (no aplica) y número de instancias.
+3. Availability Zones: zonas en las que hay instancias desplegadas (no aplica, entorno local) y número de instancias.
+4. Status: Estado e instancias en dicho estado y dirección de acceso al servicio.  
 
 ---
 
