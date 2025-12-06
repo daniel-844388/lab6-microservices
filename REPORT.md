@@ -2,12 +2,14 @@
 
 ## 1. Configuration Setup
 
-**Configuration Repository**: [Link to your forked repository]
+**Configuration Repository**: https://github.com/daniel-844388/lab6-microservices
 
 Describe the changes you made to the configuration:
 
 - What did you modify in `accounts-service.yml`?
+Se ha cambiado el puerto en el que se expone el servicio del valor 3333 al valor 2222.
 - Why is externalized configuration useful in microservices?
+Permite realizar cambios en la configuración del servicio y que todas las instancias que arranquen a continuación apliquen la nueva configuración, evitando cambiar manualmente el fichero de configuración de cada instancia.
 
 ---
 
@@ -106,7 +108,7 @@ En el log del servicio 'web' se ve un error en la conexión con el servicio 'acc
 Explain how Eureka detects and removes the failed instance:
 
 - How long did it take for Eureka to remove the dead instance?
-Unos pocos segundos
+Unos pocos segundos.
 - What mechanism does Eureka use to detect failures?
 Utiliza 'heartbeats' que los distintos servicios envían a Eureka cada 5 segundos (lease-renewal-interval-in-seconds: 5).
 Así, si Eureka no ha recibido 'heartbeat' de un servicio en 10 segundos (lease-expiration-duration-in-seconds: 10) establece la instancia como caída.
@@ -133,9 +135,13 @@ El cliente guarda en caché las instancias del servicio, que actualiza periodica
 Summarize what you learned about:
 
 - Microservices architecture
+La arquitectura de microservicios permite que una aplicación pueda dividirse según funcionalidades, permitiendo que estos servicios sean independientes unos de otros; desde el lenguaje en el que se implementan, la independencia para desarrollarlos y modificarlos así como un escalado asimétrico, donde se pueden crear múltiples instancias de cada servicio según necesidades.
 - Service discovery with Eureka
+Eureka permite que varios servicios puedan descubrirse entre sí para comunicarse. Son los diferentes servicios los que se registran en Eureka y preguntan por otros servicios. Así, ni el resto de servicios ni el propio servidor Eureka deben conocer al resto de servicios de antemano. Además, el sistema permite registrar múltiples instancias de cada servicio y gestionar si estas están activas o caídas. 
 - System resilience and self-healing
+El sistema cuenta con un mecanismo basado en 'heatbeats' que garantiza a Eureka conocer si las instancias registradas están disponibles o no. Además, la caché en el lado del cliente garantiza mantener una copia actualizada de las instancias de los servicios en caso de que el servidor Eureka pueda fallar temporalmente.
 - Challenges you encountered and how you solved them
+Quería comprobar el tiempo real que tarda Eureka en detectar una caída. El dashboard no actualiza automáticamente, y al refrescar manualmente la página las caídas aparecen al instante (no esperan ausencia de heartbeats), y no he conseguido saber el motivo.
 
 ---
 
@@ -143,14 +149,11 @@ Summarize what you learned about:
 
 **Did you use AI tools?** (ChatGPT, Copilot, Claude, etc.)
 
-- If YES: Which tools? What did they help with? What did you do yourself?
-- If NO: Write "No AI tools were used."
+Si, he usado ChatGPT para comprender algunos logs de la consola y para consultar algunos aspectos concretos del fucionamiento de Eureka.
+Las cuestiones obtenidas mediante ChatGTP han sido verificadas en otras fuentes, como por ejemplo en documentación oficial de Spring:
+https://spring.io/blog/2015/07/14/microservices-with-spring
+https://docs.spring.io/spring-cloud-netflix/reference/spring-cloud-netflix.html
+https://docs.spring.io/spring-cloud-netflix/reference/configprops.html
 
 **Important**: Explain your own understanding of microservices patterns and Eureka behavior, even if AI helped you write parts of this report.
-
----
-
-## Additional Notes
-
-Any other observations or comments about the assignment.
 
