@@ -96,7 +96,8 @@ El cliente solicita un listado de todas las instancias del servicio, y es el pro
 
 ![Error Screenshot](docs/screenshots/failure-error.png)
 
-Describe what happens immediately after stopping the accounts service on port 3333.
+Al realizar una nueva petición la página queda en blanco y se produce un error 500 ante petición GET.
+En el log del servicio 'web' se ve un error en la conexión con el servicio 'accounts', porque la instancia que tenía registrada ya no está activa.
 
 ### Eureka Instance Removal
 
@@ -105,7 +106,10 @@ Describe what happens immediately after stopping the accounts service on port 33
 Explain how Eureka detects and removes the failed instance:
 
 - How long did it take for Eureka to remove the dead instance?
+Unos pocos segundos
 - What mechanism does Eureka use to detect failures?
+Utiliza 'heartbeats' que los distintos servicios envían a Eureka cada 5 segundos (lease-renewal-interval-in-seconds: 5).
+Así, si Eureka no ha recibido 'heartbeat' de un servicio en 10 segundos (lease-expiration-duration-in-seconds: 10) establece la instancia como caída.
 
 ---
 
@@ -116,8 +120,11 @@ Explain how Eureka detects and removes the failed instance:
 Answer the following questions:
 
 - Why does the web service eventually recover?
+Porque hay otra instancia activa del servicio al que realizar la petición.
 - How long did recovery take?
+Casi inmediatamente.
 - What role does client-side caching play in the recovery process?
+El cliente guarda en caché las instancias del servicio, que actualiza periodicamente (eureka.client.registry-fetch-interval-seconds), y si la petición a una instancia falló tan solo tiene que probar con otras.
 
 ---
 
